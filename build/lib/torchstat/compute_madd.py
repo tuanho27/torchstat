@@ -143,15 +143,20 @@ def compute_madd(module, inp, out):
     elif isinstance(module, nn.ConvTranspose2d):
         return compute_ConvTranspose2d_madd(module, inp, out)
     elif isinstance(module, nn.BatchNorm2d):
-        return compute_BatchNorm2d_madd(module, inp, out)
+        # return compute_BatchNorm2d_madd(module, inp, out)
+        return 0
     elif isinstance(module, nn.MaxPool2d):
-        return compute_MaxPool2d_madd(module, inp, out)
+        # return compute_MaxPool2d_madd(module, inp, out)
+        return 0
     elif isinstance(module, nn.AvgPool2d):
-        return compute_AvgPool2d_madd(module, inp, out)
+        # return compute_AvgPool2d_madd(module, inp, out)
+        return 0
     elif isinstance(module, (nn.ReLU, nn.ReLU6)):
-        return compute_ReLU_madd(module, inp, out)
+        # return compute_ReLU_madd(module, inp, out)
+        return 0
     elif isinstance(module, nn.Softmax):
-        return compute_Softmax_madd(module, inp, out)
+        # return compute_Softmax_madd(module, inp, out)
+        return 0
     elif isinstance(module, nn.Linear):
         return compute_Linear_madd(module, inp, out)
     elif isinstance(module, nn.Bilinear):

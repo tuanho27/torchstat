@@ -34,6 +34,7 @@ def convert_leaf_modules_to_stat_tree(leaf_modules):
             if i == len(names) - 1:  # leaf module itself
                 input_shape = leaf_module.input_shape.cpu().numpy().tolist()
                 output_shape = leaf_module.output_shape.cpu().numpy().tolist()
+                # kernel_size = leaf_module.
                 node.input_shape = input_shape
                 node.output_shape = output_shape
                 node.parameter_quantity = leaf_module.parameter_quantity.cpu().numpy()[0]
