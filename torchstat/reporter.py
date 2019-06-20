@@ -33,7 +33,7 @@ def report_format(collected_nodes):
         parameter_quantity = node.parameter_quantity
         inference_memory = node.inference_memory
         MAdd = node.MAdd
-        Flops = node.Flops * 2
+        Flops = node.Flops 
         mread, mwrite = [i for i in node.Memory]
         mem_rw = mread + mwrite
         # duration = node.duration
@@ -94,5 +94,6 @@ def report_format(collected_nodes):
     summary += "Total memory: {:.2f}MB\n".format(total_memory)
     summary += "Total MAdd: {}MAdd\n".format(round_value(total_operation_quantity))
     summary += "Total Flops: {}Flops\n".format(round_value(total_flops))
+    summary += "Total MAC: {}OPs\n".format(round_value(total_flops*2))
     summary += "Total MemR+W: {}B\n".format(round_value(total_memrw, True))
     return summary
