@@ -24,6 +24,8 @@ def convert_leaf_modules_to_stat_tree(leaf_modules):
     create_index = 1
     root_node = StatNode(name='root', parent=None)
     for leaf_module_name, leaf_module in leaf_modules.items():
+        # print(str(leaf_module).split("(")[0])
+        layer_type = str(leaf_module).split("(")[0]
         names = leaf_module_name.split('.')
         for i in range(len(names)):
             create_index += 1
@@ -34,7 +36,6 @@ def convert_leaf_modules_to_stat_tree(leaf_modules):
             if i == len(names) - 1:  # leaf module itself
                 input_shape = leaf_module.input_shape.cpu().numpy().tolist()
                 output_shape = leaf_module.output_shape.cpu().numpy().tolist()
-                # kernel_size = leaf_module.
                 node.input_shape = input_shape
                 node.output_shape = output_shape
                 node.parameter_quantity = leaf_module.parameter_quantity.cpu().numpy()[0]
@@ -43,6 +44,9 @@ def convert_leaf_modules_to_stat_tree(leaf_modules):
                 node.Flops = leaf_module.Flops.cpu().numpy()[0]
                 node.duration = leaf_module.duration.cpu().numpy()[0]
                 node.Memory = leaf_module.Memory.cpu().numpy().tolist()
+                #add kernel size, layer type
+                node.kernel_size = leaf_module.kernel_size
+                node.layer_type = layer_type
     return StatTree(root_node)
 
 
@@ -50,7 +54,7 @@ class ModelStat(object):
     # def __init__(self, model, input_size, query_granularity=1):
     def __init__(self, model, data, input_size, query_granularity=1):
         assert isinstance(model, nn.Module)
-        # assert isinstance(input_size, (tuple, list)) and len(input_size) == 3
+        assert isinstance(input_size, (tuple, list)) and len(input_size) == 3
         self._model = model
         self.data = data
         self._input_size = input_size
