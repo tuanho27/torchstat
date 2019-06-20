@@ -16,15 +16,8 @@ class ModelHook(object):
         self._model = model
         self._input_size = input_size
         self._origin_call = dict()  # sub module call hook
-
         self._hook_model()
-
         # x1 = torch.rand(1, *self._input_size)  # add module duration time
-        # x = [x1,x1]
-        # img_meta = [{'ori_shape': (528, 640, 3), 'img_shape': (800, 970, 3),
-        #            'pad_shape': (800, 992, 3), 'scale_factor': 1.5151515151515151, 'flip': False}, 
-        #            {'ori_shape': (359, 640, 3), 'img_shape': (748, 1333, 3), 'pad_shape': (768, 1344, 3), 
-        #            'scale_factor': 2.0828125, 'flip': True}]
         self._model.eval()
         self._model.cuda()
         self._model(**data)
@@ -48,7 +41,6 @@ class ModelHook(object):
     def _sub_module_call_hook(self):
         def wrap_call(module, *input, **kwargs):
             assert module.__class__ in self._origin_call
-            # print("INPUT", input)
             # Itemsize for memory
             itemsize = input[0].cpu().detach().numpy().itemsize
 
@@ -112,7 +104,9 @@ class ModelHook(object):
     def _retrieve_leaf_modules(model):
         leaf_modules = []
         for name, m in model.named_modules():
-            if len(list(m.children())) == 0:
+            # leaf_modules.append((name, m))
+            # keep only convolution layers
+            if len(list(m.children())) == 0 and "Conv" in str(type(m)) and "conv_head" not in name:
                 leaf_modules.append((name, m))
         return leaf_modules
 
