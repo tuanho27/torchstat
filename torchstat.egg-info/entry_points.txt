@@ -1,4 +1,0 @@
-
-    [console_scripts]
-    torchstat = torchstat.__main__:main
-    
