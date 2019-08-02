@@ -93,7 +93,7 @@ def report_format(collected_nodes):
     summary += '\n'
     summary += "Total memory: {:.2f}MB\n".format(total_memory)
     summary += "Total MAdd: {}MAdd\n".format(round_value(total_operation_quantity))
-    summary += "Total Flops: {}Flops\n".format(round_value(total_flops))
+    summary += "Total Flops: {}Flops\n".format(round_value(total_flops*2))
     summary += "Total MAC: {}OPs\n".format(round_value(total_flops*2))
     summary += "Total MemR+W: {}B\n".format(round_value(total_memrw, True))
     return summary
